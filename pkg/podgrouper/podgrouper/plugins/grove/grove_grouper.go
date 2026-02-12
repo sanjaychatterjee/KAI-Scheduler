@@ -66,12 +66,12 @@ func (gg *GroveGrouper) GetPodGroupMetadata(
 		return nil, fmt.Errorf("label for podgang name (key: %s) not found in pod %s/%s",
 			labelKeyPodGangName, pod.Namespace, pod.Name)
 	}
-	if _, ok := pod.Annotations[annotationKeyIgnorePodGang]; ok {
-		return nil, fmt.Errorf("podgang %s/%s annotated to be ignored", pod.Namespace, podGangName)
-	}
 	podGang, err := gg.fetchPodGang(pod.Namespace, podGangName)
 	if err != nil {
 		return nil, err
+	}
+	if _, ok := podGang.Annotations[annotationKeyIgnorePodGang]; ok {
+		return nil, fmt.Errorf("podgang %s/%s annotated to be ignored", pod.Namespace, podGangName)
 	}
 
 	metadata, err := gg.DefaultGrouper.GetPodGroupMetadata(podGang, pod)
