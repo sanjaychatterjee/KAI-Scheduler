@@ -70,7 +70,7 @@ func (gg *GroveGrouper) GetPodGroupMetadata(
 	if err != nil {
 		return nil, err
 	}
-	if _, ok := podGang.Annotations[annotationKeyIgnorePodGang]; ok {
+	if _, ok := podGang.GetAnnotations()[annotationKeyIgnorePodGang]; ok {
 		return nil, fmt.Errorf("podgang %s/%s annotated to be ignored", pod.Namespace, podGangName)
 	}
 
