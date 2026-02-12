@@ -201,9 +201,9 @@ func TestGetPodGroupMetadata_IgnorePodGang(t *testing.T) {
 	}
 	client := fake.NewClientBuilder().WithScheme(scheme.Scheme).WithRuntimeObjects(podGang).Build()
 	grouper := NewGroveGrouper(client, defaultgrouper.NewDefaultGrouper(queueLabelKey, nodePoolLabelKey, client))
-	_, err := grouper.GetPodGroupMetadata(nil, pod)
-	assert.Error(t, err)
-	assert.Contains(t, err.Error(), "podgang test-ns/pgs1 annotated to be ignored")
+	metadata, err := grouper.GetPodGroupMetadata(nil, pod)
+	assert.Nil(t, err)
+	assert.Equal(t, nil, metadata)
 }
 
 func TestGetPodGroupMetadata_NestedValueErrors(t *testing.T) {

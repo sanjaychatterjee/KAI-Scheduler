@@ -70,8 +70,10 @@ func (gg *GroveGrouper) GetPodGroupMetadata(
 	if err != nil {
 		return nil, err
 	}
+
+	// Ignore PodGang if it contains a specific annotation
 	if _, ok := podGang.GetAnnotations()[annotationKeyIgnorePodGang]; ok {
-		return nil, fmt.Errorf("podgang %s/%s annotated to be ignored", pod.Namespace, podGangName)
+		return nil, nil
 	}
 
 	metadata, err := gg.DefaultGrouper.GetPodGroupMetadata(podGang, pod)
