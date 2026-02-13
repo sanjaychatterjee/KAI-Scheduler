@@ -6,7 +6,6 @@ package grove
 import (
 	"testing"
 
-	"github.com/NVIDIA/KAI-scheduler/pkg/podgrouper/podgroup"
 	"github.com/NVIDIA/KAI-scheduler/pkg/podgrouper/podgrouper/plugins/constants"
 	"github.com/NVIDIA/KAI-scheduler/pkg/podgrouper/podgrouper/plugins/defaultgrouper"
 	"github.com/stretchr/testify/assert"
@@ -204,7 +203,9 @@ func TestGetPodGroupMetadata_IgnorePodGang(t *testing.T) {
 	grouper := NewGroveGrouper(client, defaultgrouper.NewDefaultGrouper(queueLabelKey, nodePoolLabelKey, client))
 	metadata, err := grouper.GetPodGroupMetadata(nil, pod)
 	assert.Nil(t, err)
-	assert.Equal(t, (*podgroup.Metadata)(nil), metadata)
+	if metadata != nil {
+		assert.Fail(t, "PodGang not ignored")
+	}
 }
 
 func TestGetPodGroupMetadata_NestedValueErrors(t *testing.T) {
