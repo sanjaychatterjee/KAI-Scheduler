@@ -203,7 +203,7 @@ func TestGetPodGroupMetadata_IgnorePodGang(t *testing.T) {
 	grouper := NewGroveGrouper(client, defaultgrouper.NewDefaultGrouper(queueLabelKey, nodePoolLabelKey, client))
 	metadata, err := grouper.GetPodGroupMetadata(nil, pod)
 	assert.Nil(t, err)
-	assert.EqualValues(t, nil, metadata)
+	assert.Equal(t, (*podgroup.Metadata)(nil), metadata)
 }
 
 func TestGetPodGroupMetadata_NestedValueErrors(t *testing.T) {
